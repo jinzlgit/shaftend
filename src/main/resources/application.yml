@@ -1,0 +1,37 @@
+shaft:
+  version: v1
+  netty:
+    port: 9001
+  admin:
+    port: 9090
+
+server:
+  port: 9099
+  servlet:
+    context-path: /shaftend/${shaft.version}
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: shaftend-${shaft.version}
+  boot:
+    admin:
+      client:
+        url: http://localhost:${shaft.admin.port}/admin-server/v1
+        username: admin
+        password: admin
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+mybatis:
+  typeAliasesPackage: com.jyd.entity
+  mapperLocations: classpath:mapper/**/*Mapper.xml
+
+logging:
+  file:
+    name: shaftend.log

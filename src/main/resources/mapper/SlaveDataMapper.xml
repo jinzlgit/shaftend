@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jyd.dao.SlaveDataMapper">
+  <resultMap id="BaseResultMap" type="com.jyd.entity.SlaveData">
+    <constructor>
+      <idArg column="slave_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="msg_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="head" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="length" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="number" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="version" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="msg_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="data_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="msg_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="device_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="shaft_x" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="shaft_y" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="shaft_z" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="frequency" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="acceleration_max" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="speed_max" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="displacement_max" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="acceleration_valid" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="speed_valid" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="displacement_valid" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="tempture_pt" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="tempture_mlx" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="direction" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="turn_speed" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="voltage" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="alarm" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="rev_one" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="rev_two" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="rev_second" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="crc" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    slave_id, msg_id, head, length, number, version, msg_type, data_type, msg_code, device_id, 
+    shaft_x, shaft_y, shaft_z, frequency, acceleration_max, speed_max, displacement_max, 
+    acceleration_valid, speed_valid, displacement_valid, tempture_pt, tempture_mlx, direction, 
+    turn_speed, voltage, alarm, rev_one, rev_two, rev_second, crc, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from slave_data
+    where slave_id = #{slaveId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from slave_data
+    where slave_id = #{slaveId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jyd.entity.SlaveData">
+    <selectKey keyProperty="slaveId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into slave_data (msg_id, head, length, 
+      number, version, msg_type, 
+      data_type, msg_code, device_id, 
+      shaft_x, shaft_y, shaft_z, 
+      frequency, acceleration_max, speed_max, 
+      displacement_max, acceleration_valid, speed_valid, 
+      displacement_valid, tempture_pt, tempture_mlx, 
+      direction, turn_speed, voltage, 
+      alarm, rev_one, rev_two, 
+      rev_second, crc, create_time
+      )
+    values (#{msgId,jdbcType=INTEGER}, #{head,jdbcType=VARCHAR}, #{length,jdbcType=VARCHAR}, 
+      #{number,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{msgType,jdbcType=TINYINT}, 
+      #{dataType,jdbcType=TINYINT}, #{msgCode,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR}, 
+      #{shaftX,jdbcType=VARCHAR}, #{shaftY,jdbcType=VARCHAR}, #{shaftZ,jdbcType=VARCHAR}, 
+      #{frequency,jdbcType=VARCHAR}, #{accelerationMax,jdbcType=VARCHAR}, #{speedMax,jdbcType=VARCHAR}, 
+      #{displacementMax,jdbcType=VARCHAR}, #{accelerationValid,jdbcType=VARCHAR}, #{speedValid,jdbcType=VARCHAR}, 
+      #{displacementValid,jdbcType=VARCHAR}, #{tempturePt,jdbcType=VARCHAR}, #{temptureMlx,jdbcType=VARCHAR}, 
+      #{direction,jdbcType=TINYINT}, #{turnSpeed,jdbcType=VARCHAR}, #{voltage,jdbcType=VARCHAR}, 
+      #{alarm,jdbcType=VARCHAR}, #{revOne,jdbcType=VARCHAR}, #{revTwo,jdbcType=VARCHAR}, 
+      #{revSecond,jdbcType=VARCHAR}, #{crc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jyd.entity.SlaveData">
+    <selectKey keyProperty="slaveId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into slave_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="msgId != null">
+        msg_id,
+      </if>
+      <if test="head != null">
+        head,
+      </if>
+      <if test="length != null">
+        length,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="msgType != null">
+        msg_type,
+      </if>
+      <if test="dataType != null">
+        data_type,
+      </if>
+      <if test="msgCode != null">
+        msg_code,
+      </if>
+      <if test="deviceId != null">
+        device_id,
+      </if>
+      <if test="shaftX != null">
+        shaft_x,
+      </if>
+      <if test="shaftY != null">
+        shaft_y,
+      </if>
+      <if test="shaftZ != null">
+        shaft_z,
+      </if>
+      <if test="frequency != null">
+        frequency,
+      </if>
+      <if test="accelerationMax != null">
+        acceleration_max,
+      </if>
+      <if test="speedMax != null">
+        speed_max,
+      </if>
+      <if test="displacementMax != null">
+        displacement_max,
+      </if>
+      <if test="accelerationValid != null">
+        acceleration_valid,
+      </if>
+      <if test="speedValid != null">
+        speed_valid,
+      </if>
+      <if test="displacementValid != null">
+        displacement_valid,
+      </if>
+      <if test="tempturePt != null">
+        tempture_pt,
+      </if>
+      <if test="temptureMlx != null">
+        tempture_mlx,
+      </if>
+      <if test="direction != null">
+        direction,
+      </if>
+      <if test="turnSpeed != null">
+        turn_speed,
+      </if>
+      <if test="voltage != null">
+        voltage,
+      </if>
+      <if test="alarm != null">
+        alarm,
+      </if>
+      <if test="revOne != null">
+        rev_one,
+      </if>
+      <if test="revTwo != null">
+        rev_two,
+      </if>
+      <if test="revSecond != null">
+        rev_second,
+      </if>
+      <if test="crc != null">
+        crc,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="msgId != null">
+        #{msgId,jdbcType=INTEGER},
+      </if>
+      <if test="head != null">
+        #{head,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null">
+        #{length,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null">
+        #{msgType,jdbcType=TINYINT},
+      </if>
+      <if test="dataType != null">
+        #{dataType,jdbcType=TINYINT},
+      </if>
+      <if test="msgCode != null">
+        #{msgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null">
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="shaftX != null">
+        #{shaftX,jdbcType=VARCHAR},
+      </if>
+      <if test="shaftY != null">
+        #{shaftY,jdbcType=VARCHAR},
+      </if>
+      <if test="shaftZ != null">
+        #{shaftZ,jdbcType=VARCHAR},
+      </if>
+      <if test="frequency != null">
+        #{frequency,jdbcType=VARCHAR},
+      </if>
+      <if test="accelerationMax != null">
+        #{accelerationMax,jdbcType=VARCHAR},
+      </if>
+      <if test="speedMax != null">
+        #{speedMax,jdbcType=VARCHAR},
+      </if>
+      <if test="displacementMax != null">
+        #{displacementMax,jdbcType=VARCHAR},
+      </if>
+      <if test="accelerationValid != null">
+        #{accelerationValid,jdbcType=VARCHAR},
+      </if>
+      <if test="speedValid != null">
+        #{speedValid,jdbcType=VARCHAR},
+      </if>
+      <if test="displacementValid != null">
+        #{displacementValid,jdbcType=VARCHAR},
+      </if>
+      <if test="tempturePt != null">
+        #{tempturePt,jdbcType=VARCHAR},
+      </if>
+      <if test="temptureMlx != null">
+        #{temptureMlx,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null">
+        #{direction,jdbcType=TINYINT},
+      </if>
+      <if test="turnSpeed != null">
+        #{turnSpeed,jdbcType=VARCHAR},
+      </if>
+      <if test="voltage != null">
+        #{voltage,jdbcType=VARCHAR},
+      </if>
+      <if test="alarm != null">
+        #{alarm,jdbcType=VARCHAR},
+      </if>
+      <if test="revOne != null">
+        #{revOne,jdbcType=VARCHAR},
+      </if>
+      <if test="revTwo != null">
+        #{revTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="revSecond != null">
+        #{revSecond,jdbcType=VARCHAR},
+      </if>
+      <if test="crc != null">
+        #{crc,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jyd.entity.SlaveData">
+    update slave_data
+    <set>
+      <if test="msgId != null">
+        msg_id = #{msgId,jdbcType=INTEGER},
+      </if>
+      <if test="head != null">
+        head = #{head,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null">
+        length = #{length,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null">
+        msg_type = #{msgType,jdbcType=TINYINT},
+      </if>
+      <if test="dataType != null">
+        data_type = #{dataType,jdbcType=TINYINT},
+      </if>
+      <if test="msgCode != null">
+        msg_code = #{msgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null">
+        device_id = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="shaftX != null">
+        shaft_x = #{shaftX,jdbcType=VARCHAR},
+      </if>
+      <if test="shaftY != null">
+        shaft_y = #{shaftY,jdbcType=VARCHAR},
+      </if>
+      <if test="shaftZ != null">
+        shaft_z = #{shaftZ,jdbcType=VARCHAR},
+      </if>
+      <if test="frequency != null">
+        frequency = #{frequency,jdbcType=VARCHAR},
+      </if>
+      <if test="accelerationMax != null">
+        acceleration_max = #{accelerationMax,jdbcType=VARCHAR},
+      </if>
+      <if test="speedMax != null">
+        speed_max = #{speedMax,jdbcType=VARCHAR},
+      </if>
+      <if test="displacementMax != null">
+        displacement_max = #{displacementMax,jdbcType=VARCHAR},
+      </if>
+      <if test="accelerationValid != null">
+        acceleration_valid = #{accelerationValid,jdbcType=VARCHAR},
+      </if>
+      <if test="speedValid != null">
+        speed_valid = #{speedValid,jdbcType=VARCHAR},
+      </if>
+      <if test="displacementValid != null">
+        displacement_valid = #{displacementValid,jdbcType=VARCHAR},
+      </if>
+      <if test="tempturePt != null">
+        tempture_pt = #{tempturePt,jdbcType=VARCHAR},
+      </if>
+      <if test="temptureMlx != null">
+        tempture_mlx = #{temptureMlx,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null">
+        direction = #{direction,jdbcType=TINYINT},
+      </if>
+      <if test="turnSpeed != null">
+        turn_speed = #{turnSpeed,jdbcType=VARCHAR},
+      </if>
+      <if test="voltage != null">
+        voltage = #{voltage,jdbcType=VARCHAR},
+      </if>
+      <if test="alarm != null">
+        alarm = #{alarm,jdbcType=VARCHAR},
+      </if>
+      <if test="revOne != null">
+        rev_one = #{revOne,jdbcType=VARCHAR},
+      </if>
+      <if test="revTwo != null">
+        rev_two = #{revTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="revSecond != null">
+        rev_second = #{revSecond,jdbcType=VARCHAR},
+      </if>
+      <if test="crc != null">
+        crc = #{crc,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where slave_id = #{slaveId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jyd.entity.SlaveData">
+    update slave_data
+    set msg_id = #{msgId,jdbcType=INTEGER},
+      head = #{head,jdbcType=VARCHAR},
+      length = #{length,jdbcType=VARCHAR},
+      number = #{number,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      msg_type = #{msgType,jdbcType=TINYINT},
+      data_type = #{dataType,jdbcType=TINYINT},
+      msg_code = #{msgCode,jdbcType=VARCHAR},
+      device_id = #{deviceId,jdbcType=VARCHAR},
+      shaft_x = #{shaftX,jdbcType=VARCHAR},
+      shaft_y = #{shaftY,jdbcType=VARCHAR},
+      shaft_z = #{shaftZ,jdbcType=VARCHAR},
+      frequency = #{frequency,jdbcType=VARCHAR},
+      acceleration_max = #{accelerationMax,jdbcType=VARCHAR},
+      speed_max = #{speedMax,jdbcType=VARCHAR},
+      displacement_max = #{displacementMax,jdbcType=VARCHAR},
+      acceleration_valid = #{accelerationValid,jdbcType=VARCHAR},
+      speed_valid = #{speedValid,jdbcType=VARCHAR},
+      displacement_valid = #{displacementValid,jdbcType=VARCHAR},
+      tempture_pt = #{tempturePt,jdbcType=VARCHAR},
+      tempture_mlx = #{temptureMlx,jdbcType=VARCHAR},
+      direction = #{direction,jdbcType=TINYINT},
+      turn_speed = #{turnSpeed,jdbcType=VARCHAR},
+      voltage = #{voltage,jdbcType=VARCHAR},
+      alarm = #{alarm,jdbcType=VARCHAR},
+      rev_one = #{revOne,jdbcType=VARCHAR},
+      rev_two = #{revTwo,jdbcType=VARCHAR},
+      rev_second = #{revSecond,jdbcType=VARCHAR},
+      crc = #{crc,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where slave_id = #{slaveId,jdbcType=INTEGER}
+  </update>
+</mapper>
