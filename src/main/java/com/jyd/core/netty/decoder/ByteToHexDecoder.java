@@ -20,6 +20,9 @@ public class ByteToHexDecoder extends ByteToMessageDecoder {
     protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf, List<Object> in) throws Exception {
         String hex = ByteBufUtil.hexDump(byteBuf, byteBuf.readerIndex(), byteBuf.readableBytes()).toUpperCase();
         log.info("服务器收到:{}", hex);
+        if (hex.length() < 8) {
+            return;
+        }
         if (!StrUtil.equalsIgnoreCase(hex.substring(0, 8), "5AA5A55A")) {
             log.info("报文头不正确，丢弃");
             ByteBuf buffer = ctx.alloc().buffer(byteBuf.readableBytes());
