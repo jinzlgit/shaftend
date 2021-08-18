@@ -20,7 +20,7 @@ public class HexDecoder extends MessageToMessageDecoder<String> {
         String code = s.substring(22, 24);
         String number = s.substring(24, 28);
         in.add(BaseDTO.builder()
-                .code(CodeEnum.getBeanNameByCode(code))
+                .code(code)
                 .number(number)
                 .content(s)
                 .build());

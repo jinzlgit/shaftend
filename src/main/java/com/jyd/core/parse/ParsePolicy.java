@@ -1,5 +1,6 @@
 package com.jyd.core.parse;
 
+import com.jyd.core.constant.CodeEnum;
 import com.jyd.core.domain.BaseDTO;
 import com.jyd.core.util.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,8 @@ import java.util.Optional;
 @Component
 public class ParsePolicy {
     public static void parse(BaseDTO baseDTO) {
-        IParsePolicy policy = (IParsePolicy) SpringUtil.getBeanByName(baseDTO.getCode());
+        String beanName = CodeEnum.getBeanNameByCode(baseDTO.getCode());
+        IParsePolicy policy = (IParsePolicy) SpringUtil.getBeanByName(beanName);
         try {
             Optional.ofNullable(policy)
                     .orElseThrow(() -> new ClassNotFoundException("没有配置解析CODE:[" + baseDTO.getCode() + "]的策略"))
