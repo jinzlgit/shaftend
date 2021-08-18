@@ -1,11 +1,14 @@
 package com.jyd.core.parse;
 
 import cn.hutool.core.util.HexUtil;
+import cn.hutool.core.util.StrUtil;
 import com.jyd.entity.SlaveData;
 import com.jyd.service.ISlaveDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 /**
  * @author Zhenlin Jin
@@ -45,7 +48,7 @@ public class SlaveDataParse extends AbstractIParsePolicy<SlaveData> {
         data.setDeviceId(content.substring(24, 28));
         data.setShaftX(content.substring(28, 32));
         data.setShaftY(content.substring(32, 36));
-        data.setShaftX(content.substring(36, 40));
+        data.setShaftZ(content.substring(36, 40));
         data.setFrequency(HexUtil.toBigInteger(content.substring(40, 44)).toString());
         data.setAccelerationMax(String.valueOf((HexUtil.toBigInteger(content.substring(44, 48)).intValue()) / ONE_HUNDRED));
         data.setSpeedMax(String.valueOf((HexUtil.toBigInteger(content.substring(48, 52)).intValue()) / ONE_THOUSAND));
@@ -63,6 +66,7 @@ public class SlaveDataParse extends AbstractIParsePolicy<SlaveData> {
         data.setRevTwo(content.substring(96, 104));
         data.setRevSecond(content.substring(104, 108));
         data.setCrc(content.substring(120, 124));
+        data.setCreateTime(new Date());
         return data;
     }
 
@@ -83,6 +87,6 @@ public class SlaveDataParse extends AbstractIParsePolicy<SlaveData> {
         if (chars[3] == '1') {
             sb.append(FAULT).append(",");
         }
-        return sb.deleteCharAt(sb.lastIndexOf(",")).toString();
+        return StrUtil.isBlank(sb.toString()) ? alarm : sb.deleteCharAt(sb.lastIndexOf(",")).toString();
     }
 }
