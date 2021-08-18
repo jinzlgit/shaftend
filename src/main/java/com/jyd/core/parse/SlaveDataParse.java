@@ -28,10 +28,14 @@ public class SlaveDataParse extends AbstractIParsePolicy<SlaveData> {
 
     @Override
     public void parse(String msg) {
-        SlaveData slaveData = parseHexStrToObject(msg);
-        int insert = slaveDataService.insert(slaveData, msg);
-        if (insert < 1) {
-            log.warn("保存报文:[{}]失败", msg);
+        try {
+            SlaveData slaveData = parseHexStrToObject(msg);
+            int insert = slaveDataService.insert(slaveData, msg);
+            if (insert < 1) {
+                log.warn("保存报文:[{}]失败", msg);
+            }
+        } catch (Exception e) {
+            log.error("报文解析:[{}]出错", e.getMessage());
         }
     }
 
