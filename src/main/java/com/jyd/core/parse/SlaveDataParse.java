@@ -62,7 +62,7 @@ public class SlaveDataParse extends AbstractIParsePolicy<SlaveData> {
         data.setRevOne(content.substring(88, 96));
         data.setRevTwo(content.substring(96, 104));
         data.setRevSecond(content.substring(104, 108));
-        data.setCrc(content.substring(120, 122));
+        data.setCrc(content.substring(120, 124));
         return data;
     }
 
