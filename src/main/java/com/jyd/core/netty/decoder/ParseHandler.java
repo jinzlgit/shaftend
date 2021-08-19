@@ -29,6 +29,10 @@ public class ParseHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.warn("连接出错:{}", cause.getMessage());
+        StackTraceElement[] stackTrace = cause.getStackTrace();
+        for (StackTraceElement element : stackTrace) {
+            System.out.println(element);
+        }
         Online.off(ctx.channel().id().asShortText());
     }
 }

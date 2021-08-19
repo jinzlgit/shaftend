@@ -1,8 +1,6 @@
 package com.jyd.core.netty;
 
-import com.jyd.core.netty.decoder.ByteToHexDecoder;
-import com.jyd.core.netty.decoder.HexDecoder;
-import com.jyd.core.netty.decoder.ParseHandler;
+import com.jyd.core.netty.decoder.*;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelFuture;
@@ -12,6 +10,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -51,7 +50,10 @@ public class ServerStart implements CommandLineRunner {
             b.childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel sc) throws Exception {
-                    sc.pipeline().addLast(new ByteToHexDecoder())
+                    sc.pipeline()
+                            .addLast(new ByteDecoder(1024, 4,
+                                    2, 0, 0))
+                            .addLast(new StrDecoder())
                             .addLast(new HexDecoder())
                             .addLast(new ParseHandler());
                 }
