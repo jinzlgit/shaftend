@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,7 +25,8 @@ public class Online {
     private final String number;
 
     public static void on(String channelId, String number) {
-        Online online = GROUP.putIfAbsent(channelId, Online.builder().number(number).build());
+        if (exist(number)) return;
+        Online online = GROUP.putIfAbsent(channelId, Online.builder().channelId(channelId).number(number).build());
         if (Optional.ofNullable(online).isPresent()) return;
         COUNT.incrementAndGet();
         log.info("设备:[{}]上线，在线数:[{}]", number, COUNT.get());
@@ -36,5 +38,9 @@ public class Online {
         log.info("设备:[{}]下线", online.getNumber());
         GROUP.remove(channelId);
         COUNT.decrementAndGet();
+    }
+
+    private static boolean exist(String number) {
+        return GROUP.entrySet().stream().anyMatch(o -> o.getValue().getNumber().equals(number));
     }
 }
