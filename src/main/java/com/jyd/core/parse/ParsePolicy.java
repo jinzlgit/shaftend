@@ -26,9 +26,7 @@ public class ParsePolicy {
     public void parse() {
         PARSE_THREAD.execute(() -> {
             while (true) {
-                log.info("进入解析策略方法");
                 BaseDTO baseDTO = MessageBlockingQueue.take();
-                log.info("成功取得一条数据");
                 String beanName = CodeEnum.getBeanNameByCode(baseDTO.getCode());
                 IParsePolicy policy = (IParsePolicy) SpringUtil.getBeanByName(beanName);
                 try {
