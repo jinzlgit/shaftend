@@ -3,6 +3,8 @@ package com.jyd.core.mq;
 import com.jyd.core.domain.BaseDTO;
 import com.jyd.core.parse.ParsePolicy;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -14,12 +16,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @date 2021/8/19 17:44
  */
 @Slf4j
+@Component
 public class MessageBlockingQueue {
     private static final BlockingQueue<BaseDTO> MQ = new LinkedBlockingQueue<>();
     public static AtomicBoolean firstOffer = new AtomicBoolean(true);
-    private static ParsePolicy parsePolicy = ParsePolicy.INSTANCE;
 
-    public static void offer(BaseDTO baseDTO) {
+    @Autowired
+    private ParsePolicy parsePolicy;
+
+    public void offer(BaseDTO baseDTO) {
         try {
             boolean offer = MQ.offer(baseDTO, 1000, TimeUnit.MILLISECONDS);
             if (firstOffer.get() && offer) {
@@ -31,7 +36,7 @@ public class MessageBlockingQueue {
         }
     }
 
-    public static BaseDTO take() {
+    public BaseDTO take() {
         BaseDTO e = null;
         try {
             e = MQ.take();

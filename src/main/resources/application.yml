@@ -4,6 +4,11 @@ shaft:
     port: 9001
   admin:
     port: 9090
+  thread:
+    corePoolSize: 5
+    maxPoolSize: 10
+    keepAliveSeconds: 60
+    queueCapacity: 200
 
 server:
   port: 9099

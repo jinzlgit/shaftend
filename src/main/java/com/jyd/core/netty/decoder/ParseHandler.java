@@ -3,6 +3,7 @@ package com.jyd.core.netty.decoder;
 import com.jyd.core.domain.BaseDTO;
 import com.jyd.core.domain.Online;
 import com.jyd.core.mq.MessageBlockingQueue;
+import com.jyd.core.util.SpringUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,10 @@ public class ParseHandler extends SimpleChannelInboundHandler<BaseDTO> {
     protected void channelRead0(ChannelHandlerContext ctx, BaseDTO baseDTO) throws Exception {
         String channelId = ctx.channel().id().asShortText();
         Online.on(channelId, baseDTO.getNumber());
-        MessageBlockingQueue.offer(baseDTO);
+        MessageBlockingQueue blockingQueue = SpringUtil.getBeanByClass(MessageBlockingQueue.class);
+        if (blockingQueue != null) {
+            blockingQueue.offer(baseDTO);
+        }
     }
 
     @Override

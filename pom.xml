@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.jyd</groupId>
     <artifactId>shaftend</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
     <name>shaftend</name>
     <description>轴端报文解析</description>
     <properties>
